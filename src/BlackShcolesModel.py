@@ -8,7 +8,7 @@ class BlackScholesModel:
         self.r = r 
         self.sigma = sigma
         
-    def _getd1(self, call_option:EuropeanCall) -> float:
+    def d1(self, call_option:EuropeanCall) -> float:
         S0 = call_option._getS0()
         K = call_option._getK()
         T = call_option._getT()
@@ -19,8 +19,18 @@ class BlackScholesModel:
             / (self.sigma*np.sqrt(T))
         )
         
-    def _getd2(self,call_option:EuropeanCall) -> float:
-        
-        return (self._getd1(call_option) - self.sigma*np.sqrt(self.T))
+    def d2(self,call_option:EuropeanCall) -> float:
+        T = call_option._getT()
+        return (self.d1(call_option) - self.sigma*np.sqrt(T))
     
+    def price(self,call_option:EuropeanCall) -> float:
+        
+        S0 = call_option._getS0()
+        K = call_option._getK()
+        T = call_option._getT()
+        
+        return (
+            S0*norm.cdf(self.d1(call_option)) 
+            - K*np.exp(-self.r * T)*norm.cdf(self.d2(call_option))
+        )
         
