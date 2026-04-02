@@ -22,13 +22,13 @@ class DupireCalibrator():
         for i, T in enumerate(array_T):
             for j, K in enumerate(array_K):
                 
-                # gestion des bords pour T (pas de i+1 au dernier point)
+                # border conditions for T 
                 if i < len(array_T) - 1:
                     dC_dT = (grid[i+1, j] - grid[i, j]) / (array_T[i+1] - array_T[i])
                 else:
                     dC_dT = (grid[i, j] - grid[i-1, j]) / (array_T[i] - array_T[i-1])
                 
-                # gestion des bords pour K (différence centrée sauf aux extrémités)
+                # border conditions for K
                 if j == 0:
                     dC_dK = (grid[i, j+1] - grid[i, j]) / (array_K[j+1] - array_K[j])
                     d2C_dK2 = (grid[i, j+2] - 2*grid[i, j+1] + grid[i, j]) / (array_K[j+1] - array_K[j])**2
@@ -39,7 +39,7 @@ class DupireCalibrator():
                     dC_dK = (grid[i, j+1] - grid[i, j-1]) / (array_K[j+1] - array_K[j-1])
                     d2C_dK2 = (grid[i, j+1] - 2*grid[i, j] + grid[i, j-1]) / (array_K[j+1] - array_K[j])**2
                 
-                # formule de Dupire
+                # Dupire formula
                 num = dC_dT + r * K * dC_dK
                 den = 0.5 * K**2 * d2C_dK2
                 
