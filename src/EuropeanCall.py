@@ -5,7 +5,6 @@ class EuropeanCall:
         self.K = K;
         self.T = T;
         
-        
     def _getS0(self):
         return self.S0
     
