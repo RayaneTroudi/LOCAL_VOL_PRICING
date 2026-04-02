@@ -2,6 +2,8 @@ from VolSmile import VolSmile
 from MarketData import MarketData
 from MarketDataGenerator import MarketDataGenerator
 import numpy as np
+from LocalVolSurface import LocalVolSurface
+from DupireCalibrator import DupireCalibrator
 
 # model parameters
 r = 0.02
@@ -18,8 +20,13 @@ array_sigma = [0.25,0.20,0.25]
 vol_smile_data = VolSmile(array_K,array_sigma)
 
 # computing option price with vol smile
-array_K_generator = np.arange(80,120,10) # in $
+array_K_generator = np.arange(80,120,1) # in $
 array_T_generator = np.arange(1,6,1) # in months
 engine_generator = MarketDataGenerator(S0,r,array_K_generator,array_T_generator,vol_smile_data)
-MarketData = engine_generator.GenerateData()
-MarketData.PrintMarketData()
+market_data = engine_generator.GenerateData()
+market_data.PrintMarketData()
+
+
+dupire_calibrator = DupireCalibrator(market_data,vol_smile_data)
+vol_surface = dupire_calibrator.ComputeLocalVolSurface()
+vol_surface.PrintLocalVolSurface()
