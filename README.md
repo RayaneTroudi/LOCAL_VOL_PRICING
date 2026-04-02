@@ -7,28 +7,24 @@ This project implements a **local volatility model** to price European options s
 The pipeline follows these steps:
 
 1. **Market Data Generation**  
-   Synthetic option prices are generated using a volatility smile $\sigma_{imp}(K)$ and the Black-Scholes model  
+   Synthetic option prices are generated using a volatility smile `σ_imp(K)` and the Black-Scholes model  
 
 2. **Dupire Calibration**  
-   A local volatility surface $\sigma_{loc}(K, T)$ is recovered from option prices using Dupire’s formula:
-   $$
-   \sigma_{loc}^2(K,T) = \frac{\partial C / \partial T + rK \, \partial C / \partial K}{\tfrac{1}{2} K^2 \, \partial^2 C / \partial K^2}
-   $$
+   A local volatility surface `σ_loc(K, T)` is recovered from option prices using Dupire’s formula:  
+   σ_loc²(K,T) = (∂C/∂T + r K ∂C/∂K) / (0.5 K² ∂²C/∂K²)
 
 3. **Surface Construction**  
-   The surface $\sigma_{loc}(K, T)$ is interpolated to obtain a continuous function $\sigma_{loc}(S, t)$  
+   The surface `σ_loc(K, T)` is interpolated to obtain a continuous function `σ_loc(S, t)`  
 
 4. **Option Pricing**  
-   European options are priced by solving the PDE:
-   $$
-   \frac{\partial C}{\partial t} + \frac{1}{2} \sigma_{loc}^2(S,t) S^2 \frac{\partial^2 C}{\partial S^2} + r S \frac{\partial C}{\partial S} - r C = 0
-   $$
+   European options are priced by solving the PDE:  
+   ∂C/∂t + 0.5 σ_loc²(S,t) S² ∂²C/∂S² + r S ∂C/∂S − r C = 0
 
 ## 📊 Outputs
 
 - Price comparison: Market vs Black-Scholes vs Dupire  
-- Implied volatility smile $\sigma_{imp}(K)$  
-- Local volatility surface $\sigma_{loc}(K, T)$  
+- Implied volatility smile `σ_imp(K)`  
+- Local volatility surface `σ_loc(K, T)`  
 
 ## 🧠 Key Insight
 
@@ -41,8 +37,6 @@ The model reproduces the volatility smile by construction and ensures consistent
 - Matplotlib  
 
 ## ▶️ Usage
-
-Run the main script:
 
 ```bash
 python main.py
